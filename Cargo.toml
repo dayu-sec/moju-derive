@@ -1,0 +1,10 @@
+[workspace]
+members = [".", "moju-derive-macros"]
+
+[package]
+name = "moju-derive"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+moju-derive-macros = { path = "moju-derive-macros" }
