@@ -7,7 +7,10 @@ pub use moju_derive_macros::MoJu;
 /// Extraction tools can also use it for compiled-type reflection.
 pub trait MoJuItem {
     /// .mju item kind: `"struct"`, `"state"`, `"event"`, `"message"`,
-    /// `"failure"`, `"cap"`, `"actor"`, `"module"`.
+    /// `"failure"`, `"cap"`, `"actor"`, `"module"`, `"interface"`,
+    /// `"storage"`, `"command"`, `"dataflow"`, `"lifecycle"`, `"layer"`,
+    /// `"dependency_rule"`, `"decision"`, `"failure_policy"`, `"flow"`,
+    /// `"verify"`, `"target"`.
     fn moju_kind() -> &'static str;
 
     /// Domain name, e.g. `"Business"`, `"Storage"`.
@@ -25,6 +28,29 @@ pub trait MoJuItem {
 
     /// Failure tag, if kind is `"failure"`, e.g. `"payment"`.
     fn moju_tag() -> Option<&'static str> {
+        None
+    }
+
+    /// Storage kind, if kind is `"storage"`:
+    /// `"table"`, `"document"`, `"key_value"`, `"queue"`, `"object"`,
+    /// `"search"`, `"graph"`, `"cache"`.
+    fn moju_storage_kind() -> Option<&'static str> {
+        None
+    }
+
+    /// Storage durability, if kind is `"storage"`:
+    /// `"transient"`, `"persistent"`, `"derived"`.
+    fn moju_durability() -> Option<&'static str> {
+        None
+    }
+
+    /// Actor parent name, if kind is `"actor"`, e.g. `"User"`.
+    fn moju_parent() -> Option<&'static str> {
+        None
+    }
+
+    /// Failure description text, if kind is `"failure"`.
+    fn moju_description() -> Option<&'static str> {
         None
     }
 

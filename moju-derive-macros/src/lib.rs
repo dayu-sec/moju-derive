@@ -10,6 +10,10 @@ struct TypeAttr {
     role: Option<String>,
     identity: Option<String>,
     tag: Option<String>,
+    storage_kind: Option<String>,
+    durability: Option<String>,
+    parent: Option<String>,
+    description: Option<String>,
 }
 
 /// Extract `#[moju(...)]` attributes from the type-level attribute list.
@@ -32,6 +36,21 @@ fn parse_type_attrs(attrs: &[syn::Attribute]) -> TypeAttr {
                             result.identity = Some(meta.value()?.parse::<LitStr>()?.value())
                         }
                         "tag" => result.tag = Some(meta.value()?.parse::<LitStr>()?.value()),
+                        "storage_kind" => {
+                            result.storage_kind =
+                                Some(meta.value()?.parse::<LitStr>()?.value())
+                        }
+                        "durability" => {
+                            result.durability =
+                                Some(meta.value()?.parse::<LitStr>()?.value())
+                        }
+                        "parent" => {
+                            result.parent = Some(meta.value()?.parse::<LitStr>()?.value())
+                        }
+                        "description" => {
+                            result.description =
+                                Some(meta.value()?.parse::<LitStr>()?.value())
+                        }
                         other => {
                             return Err(syn::Error::new(
                                 meta.path.span(),
@@ -104,6 +123,10 @@ pub fn derive_moju(input: TokenStream) -> TokenStream {
             let role = opt_str(&attrs.role);
             let identity = opt_str(&attrs.identity);
             let tag = opt_str(&attrs.tag);
+            let storage_kind = opt_str(&attrs.storage_kind);
+            let durability = opt_str(&attrs.durability);
+            let parent = opt_str(&attrs.parent);
+            let description = opt_str(&attrs.description);
 
             let expanded = quote! {
                 impl ::moju_derive::MoJuItem for #name {
@@ -112,6 +135,10 @@ pub fn derive_moju(input: TokenStream) -> TokenStream {
                     fn moju_role() -> ::core::option::Option<&'static str> { #role }
                     fn moju_identity() -> ::core::option::Option<&'static str> { #identity }
                     fn moju_tag() -> ::core::option::Option<&'static str> { #tag }
+                    fn moju_storage_kind() -> ::core::option::Option<&'static str> { #storage_kind }
+                    fn moju_durability() -> ::core::option::Option<&'static str> { #durability }
+                    fn moju_parent() -> ::core::option::Option<&'static str> { #parent }
+                    fn moju_description() -> ::core::option::Option<&'static str> { #description }
                 }
             };
             return TokenStream::from(expanded);
@@ -126,6 +153,10 @@ pub fn derive_moju(input: TokenStream) -> TokenStream {
     let role = opt_str(&attrs.role);
     let identity = opt_str(&attrs.identity);
     let tag = opt_str(&attrs.tag);
+    let storage_kind = opt_str(&attrs.storage_kind);
+    let durability = opt_str(&attrs.durability);
+    let parent = opt_str(&attrs.parent);
+    let description = opt_str(&attrs.description);
 
     let unique_tokens = if unique_strs.is_empty() {
         quote! { &[] }
@@ -144,6 +175,14 @@ pub fn derive_moju(input: TokenStream) -> TokenStream {
             fn moju_identity() -> ::core::option::Option<&'static str> { #identity }
 
             fn moju_tag() -> ::core::option::Option<&'static str> { #tag }
+
+            fn moju_storage_kind() -> ::core::option::Option<&'static str> { #storage_kind }
+
+            fn moju_durability() -> ::core::option::Option<&'static str> { #durability }
+
+            fn moju_parent() -> ::core::option::Option<&'static str> { #parent }
+
+            fn moju_description() -> ::core::option::Option<&'static str> { #description }
 
             fn moju_unique_fields() -> &'static [&'static str] { #unique_tokens }
         }
