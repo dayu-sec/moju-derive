@@ -65,7 +65,12 @@ fn test_failure_identity() {
 
 #[allow(dead_code)]
 #[derive(Debug, MoJu)]
-#[moju(kind = "storage", domain = "Business", storage_kind = "table", durability = "persistent")]
+#[moju(
+    kind = "storage",
+    domain = "Business",
+    storage_kind = "table",
+    durability = "persistent"
+)]
 struct OrderStore;
 
 #[allow(dead_code)]
@@ -75,7 +80,12 @@ struct CustomerActor;
 
 #[allow(dead_code)]
 #[derive(Debug, MoJu)]
-#[moju(kind = "failure", identity = "db.timeout", tag = "db", description = "database operation timed out")]
+#[moju(
+    kind = "failure",
+    identity = "db.timeout",
+    tag = "db",
+    description = "database operation timed out"
+)]
 enum DbError {
     Timeout,
 }
@@ -102,5 +112,8 @@ fn test_failure_description() {
     assert_eq!(DbError::moju_kind(), "failure");
     assert_eq!(DbError::moju_identity(), Some("db.timeout"));
     assert_eq!(DbError::moju_tag(), Some("db"));
-    assert_eq!(DbError::moju_description(), Some("database operation timed out"));
+    assert_eq!(
+        DbError::moju_description(),
+        Some("database operation timed out")
+    );
 }

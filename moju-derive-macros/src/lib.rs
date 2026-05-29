@@ -32,28 +32,21 @@ fn parse_type_attrs(attrs: &[syn::Attribute]) -> TypeAttr {
                     match ident.to_string().as_str() {
                         "kind" => result.kind = meta.value()?.parse::<LitStr>()?.value(),
                         "domain" => result.domain = meta.value()?.parse::<LitStr>()?.value(),
-                        "module" => {
-                            result.module = Some(meta.value()?.parse::<LitStr>()?.value())
-                        }
+                        "module" => result.module = Some(meta.value()?.parse::<LitStr>()?.value()),
                         "role" => result.role = Some(meta.value()?.parse::<LitStr>()?.value()),
                         "identity" => {
                             result.identity = Some(meta.value()?.parse::<LitStr>()?.value())
                         }
                         "tag" => result.tag = Some(meta.value()?.parse::<LitStr>()?.value()),
                         "storage_kind" => {
-                            result.storage_kind =
-                                Some(meta.value()?.parse::<LitStr>()?.value())
+                            result.storage_kind = Some(meta.value()?.parse::<LitStr>()?.value())
                         }
                         "durability" => {
-                            result.durability =
-                                Some(meta.value()?.parse::<LitStr>()?.value())
+                            result.durability = Some(meta.value()?.parse::<LitStr>()?.value())
                         }
-                        "parent" => {
-                            result.parent = Some(meta.value()?.parse::<LitStr>()?.value())
-                        }
+                        "parent" => result.parent = Some(meta.value()?.parse::<LitStr>()?.value()),
                         "description" => {
-                            result.description =
-                                Some(meta.value()?.parse::<LitStr>()?.value())
+                            result.description = Some(meta.value()?.parse::<LitStr>()?.value())
                         }
                         other => {
                             return Err(syn::Error::new(
