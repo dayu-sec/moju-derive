@@ -3,7 +3,7 @@ members = [".", "moju-derive-macros"]
 
 [package]
 name = "moju-derive"
-version = "0.1.0"
+version = "0.1.0" #@gxl:set(version)
 edition = "2021"
 
 [dependencies]

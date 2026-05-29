@@ -3,3 +3,5 @@ target/
 *.pdb
 .DS_Store
 Cargo.lock
+.run.gxl
+.report
