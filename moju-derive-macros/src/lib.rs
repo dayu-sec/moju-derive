@@ -111,6 +111,9 @@ pub fn derive_moju(input: TokenStream) -> TokenStream {
 
     let attrs = parse_type_attrs(&input.attrs);
 
+    // Handle generics (lifetimes and type params) for the impl block.
+    let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
+
     // syn 2.x: fields are inside `data`.  Enum has per-variant fields so we
     // skip field-level unique collection for enums; struct/union have top-level
     // named fields.
@@ -129,7 +132,7 @@ pub fn derive_moju(input: TokenStream) -> TokenStream {
             let description = opt_str(&attrs.description);
 
             let expanded = quote! {
-                impl ::moju_derive::MoJuItem for #name {
+                impl #impl_generics ::moju_derive::MoJuItem for #name #ty_generics #where_clause {
                     fn moju_kind() -> &'static str { #kind }
                     fn moju_domain() -> &'static str { #domain }
                     fn moju_role() -> ::core::option::Option<&'static str> { #role }
@@ -165,7 +168,7 @@ pub fn derive_moju(input: TokenStream) -> TokenStream {
     };
 
     let expanded = quote! {
-        impl ::moju_derive::MoJuItem for #name {
+        impl #impl_generics ::moju_derive::MoJuItem for #name #ty_generics #where_clause {
             fn moju_kind() -> &'static str { #kind }
 
             fn moju_domain() -> &'static str { #domain }
