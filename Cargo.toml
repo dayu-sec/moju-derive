@@ -5,6 +5,12 @@ members = [".", "moju-derive-macros"]
 name = "moju-derive"
 version = "0.1.2" #@gxl:set(version)
 edition = "2021"
+description = "Proc-macro crate for annotating Rust types with reviewed MoJu model metadata"
+license = "Apache-2.0"
+repository = "https://github.com/dayu-sec/moju-derive"
+readme = "README.md"
+keywords = ["moju", "derive", "metadata", "proc-macro", "annotation"]
+categories = ["development-tools::procedural-macro-helpers"]
 
 [dependencies]
-moju-derive-macros = { path = "moju-derive-macros" }
+moju-derive-macros = { version = "0.1.0", path = "moju-derive-macros" }
