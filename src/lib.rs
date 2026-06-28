@@ -16,6 +16,11 @@ pub trait MoJuItem {
     /// Domain name, e.g. `"Business"`, `"Storage"`.
     fn moju_domain() -> &'static str;
 
+    /// Module name, e.g. `"Design.MoJuCore"`.
+    fn moju_module() -> Option<&'static str> {
+        None
+    }
+
     /// Message role, if kind is `"message"`: `"command"`, `"query"`, `"response"`.
     fn moju_role() -> Option<&'static str> {
         None
