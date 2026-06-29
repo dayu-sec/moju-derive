@@ -29,9 +29,18 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: dtolnay/rust-toolchain@stable
-      - name: Cargo publish (dry run)
-        if: ${{ endsWith(github.ref, '-dryrun') }}
-        run: cargo publish --dry-run
-      - name: Cargo publish
+      - name: Cargo login
         if: ${{ !endsWith(github.ref, '-dryrun') }}
-        run: cargo publish --token ${{ secrets.CRATES_IO_TOKEN }}
+        run: echo "${{ secrets.CRATES_IO_TOKEN }}" | cargo login
+      - name: Cargo publish moju-derive-macros (dry run)
+        if: ${{ endsWith(github.ref, '-dryrun') }}
+        run: cargo publish -p moju-derive-macros --dry-run
+      - name: Cargo publish moju-derive-macros
+        if: ${{ !endsWith(github.ref, '-dryrun') }}
+        run: cargo publish -p moju-derive-macros
+      - name: Cargo publish moju-derive (dry run)
+        if: ${{ endsWith(github.ref, '-dryrun') }}
+        run: cargo publish -p moju-derive --dry-run
+      - name: Cargo publish moju-derive
+        if: ${{ !endsWith(github.ref, '-dryrun') }}
+        run: cargo publish -p moju-derive
